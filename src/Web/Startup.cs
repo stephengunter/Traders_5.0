@@ -18,6 +18,8 @@ using ApplicationCore.DI;
 using ApplicationCore.Authorization;
 using ApplicationCore.Hubs;
 using Web.Hubs;
+using ApplicationCore.Auth.ApiKey;
+using Microsoft.OpenApi.Models;
 
 namespace Web
 {
@@ -60,7 +62,11 @@ namespace Web
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             })
             .AddEntityFrameworkStores<DefaultContext>()
             .AddDefaultTokenProviders();
@@ -73,7 +79,15 @@ namespace Web
             services.Configure<AdminSettings>(Configuration.GetSection(SettingsKeys.AdminSettings));
             #endregion
 
-            
+            #region  Add ApiKeySupport
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+            }).AddApiKeySupport(options => { });
+
+            #endregion
 
             #region  Add JwtBearer
 
@@ -86,6 +100,8 @@ namespace Web
 
             #endregion
 
+
+
             if (IsDevelopment)
             {
                 services.AddSwagger("Traders Starter", "v1");
@@ -95,9 +111,15 @@ namespace Web
             services.AddDtoMapper();
 
             #region Add Authorization Policies
-           
+
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("ApiKey_Admin", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(ApiKeyAuthenticationOptions.DefaultScheme);
+                    policy.Requirements.Add(new HasPermissionRequirement(Permissions.Admin));
+                });
+
                 options.AddPolicy(Permissions.Subscriber.ToString(), policy =>
                     policy.Requirements.Add(new HasPermissionRequirement(Permissions.Subscriber)));
 
@@ -127,6 +149,7 @@ namespace Web
                             .AllowAnyMethod();
                 });
 
+                
                 options.AddPolicy("Global",
                 builder =>
                 {

@@ -14,6 +14,17 @@ namespace ApplicationCore
         public static string SubscribesSettings = "SubscribesSettings";
         public static string CloudStorageSettings = "CloudStorageSettings";
     }
+
+    public class ApiKeyConstants
+    {
+        public const string HeaderName = "X-Api-Key";
+    }
+    public class SymbolCodes
+    {
+        public static string TXI = "TXI";
+        public static string TXF = "TXF";
+        public static string BTCUSD = "BTCUSD";
+    }
     public enum HttpClients
     {
         Google
@@ -33,7 +44,8 @@ namespace ApplicationCore
         HUA_NAN = 1,
         ONRICH = 2,
         CAPITAL = 3,
-        FAKE = 4
+        BINANCE = 4,
+        FAKE = 5
     }
 
     public enum ConnectionStatus

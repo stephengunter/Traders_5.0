@@ -30,19 +30,22 @@ namespace ReceiverWinApp
         public Form1()
         {
             InitializeComponent();
+           
+            
+            
 
-            _settingsManager = Factories.CreateSettingsManager();
+            //_settingsManager = Factories.CreateSettingsManager();
 
-            string begin = _settingsManager.GetSettingValue(AppSettingsKey.Begin);
-            string end = _settingsManager.GetSettingValue(AppSettingsKey.End);
-            _timeManager = Factories.CreateTimeManager(begin, end);
+            //string begin = _settingsManager.GetSettingValue(AppSettingsKey.Begin);
+            //string end = _settingsManager.GetSettingValue(AppSettingsKey.End);
+            //_timeManager = Factories.CreateTimeManager(begin, end);
 
-            _futuresLocalService = Factories.CreateFuturesLocalService();
+            //_futuresLocalService = Factories.CreateFuturesLocalService();
 
-            InitReceiver();
+            //InitReceiver();
         }
 
-        IEnumerable<string> _symbolCodes = new List<string> { "MTX00" };
+        IEnumerable<string> _symbolCodes = new List<string> { SymbolCodes.BTCUSD };//{ "MTX00" };
 
         void InitReceiver()
         {
@@ -52,12 +55,11 @@ namespace ReceiverWinApp
             _quoteSource.ActionExecuted += Receiver_ActionExecuted;
             _quoteSource.ConnectionStatusChanged += Receiver_ConnectionStatusChanged;
 
-            _quoteSource.NotifyStockTick += Source_NotifyStockTick;
-            _quoteSource.NotifyFuturesTick += Source_NotifyFuturesTick;
+            _quoteSource.NotifyTick += Source_NotifyTick;
 
         }
 
-        private void Source_NotifyStockTick(object sender, EventArgs e)
+        private void Source_NotifyTick(object sender, EventArgs e)
         {
             var args = e as TickEventArgs;
             
@@ -97,7 +99,9 @@ namespace ReceiverWinApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _quoteSource.Connect();
+           // _quoteSource.Connect();
+
+           // _quoteSource.RequestQuotes(_symbolCodes);
         }
 
         void SaveSymbols(Dictionary<short, List<string>> symbols)
@@ -131,7 +135,11 @@ namespace ReceiverWinApp
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             _closed = true;
-            _quoteSource.DisConnect();
+            if (_quoteSource != null)
+            {
+                _quoteSource.DisConnect();
+            }
+           
         }
     }
 }

@@ -8,50 +8,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+using ApplicationCore.Auth.ApiKey;
 using Microsoft.AspNetCore.Authorization;
-using System;
-using ApplicationCore.DataAccess;
-using System.Collections.Generic;
-using System.Reflection;
-using ApplicationCore.Models;
-using ApplicationCore.OrderMaker.ViewServices;
+using ApplicationCore;
 
 namespace Web.Controllers.Tests
 {
+    [Authorize(Policy = "ApiKey_Admin")]
     public class ATestsController : BaseTestController
     {
         private readonly AppSettings _appSettings;
-        private readonly AdminSettings _adminSettings;
-        private readonly IUsersService _usersService;
-        private readonly IMapper _mapper;
-
-        private readonly HistoryContext _context;
-        public ATestsController(IOptions<AppSettings> appSettings, IOptions<AdminSettings> adminSettings,
-            IUsersService usersService, IMapper mapper)
+        public ATestsController(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
-            _adminSettings = adminSettings.Value;
-            _usersService = usersService;
-            _mapper = mapper;
         }
 
 
-
+        
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var accountSettings = new ApplicationCore.OrderMaker.Models.AccountSettings
-            {
-                 Account = "9887654"
-            };
-            var tradeSettings = new ApplicationCore.OrderMaker.Models.TradeSettings
-            {
-                FileName = "testFileName"    
-            };
-
-            var view = accountSettings.MapViewModel(tradeSettings, _mapper);
-            return Ok(view);
+            string userId = CurrentUserId;
+            string name = CurrentUserName;
+            var roles = CurrentUseRoles;
+            bool isSubscriber = CurrentUserIsSubscriber;
+           
+            return Ok();
         }
 
 

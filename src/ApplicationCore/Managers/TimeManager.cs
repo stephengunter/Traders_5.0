@@ -26,8 +26,8 @@ namespace ApplicationCore.Managers
         public TimeManager(string begin, string end)
         {
             this.begin = begin;
-            this.end = end;
 
+            this.end = end;
             var now = DateTime.Now;
             var beginTimes = begin.ToTimes();
             _beginTime = new DateTime(now.Year, now.Month, now.Day, beginTimes[0], beginTimes[1], beginTimes[2]);

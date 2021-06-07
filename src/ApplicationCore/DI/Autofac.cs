@@ -43,6 +43,8 @@ namespace ApplicationCore.DI
             builder.RegisterType<AppLogger>().As<IAppLogger>().SingleInstance();
             builder.RegisterType<HasPermissionHandler>().As<IAuthorizationHandler>().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(DefaultRepository<>)).As(typeof(IDefaultRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(RealTimeRepository<>)).As(typeof(IRealTimeRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(HistoryRepository<>)).As(typeof(IHistoryRepository<>)).InstancePerLifetimeScope();
 
 
             builder.RegisterAssemblyTypes(GetAssemblyByName("ApplicationCore"))

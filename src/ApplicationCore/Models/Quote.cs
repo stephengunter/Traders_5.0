@@ -9,20 +9,15 @@ namespace ApplicationCore.Models
 {
 	public class Quote : BaseEntity
 	{
+		public string Symbol { get; set; }
 		public int Date { get; set; }
-
 		public int Time { get; set; }
+		public decimal Price { get; set; }
+		public decimal Open { get; set; }
+		public decimal High { get; set; }   
+		public decimal Low { get; set; }
 
-		public int Price { get; set; }
-
-		public int Open { get; set; }
-
-		public int High { get; set; }   
-
-		public int Low { get; set; }
-
-
-		public ICollection<Data> DataList { get; set; } = new List<Data>();
+		public decimal Vol { get; set; }
 
 	}
 }

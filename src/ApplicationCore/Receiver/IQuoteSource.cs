@@ -23,8 +23,6 @@ namespace ApplicationCore.Receiver
 
 		event EventHandler ActionExecuted;
 
-		event EventHandler NotifyStockTick;
-
-		event EventHandler NotifyFuturesTick;
+		event EventHandler NotifyTick;
 	}
 }

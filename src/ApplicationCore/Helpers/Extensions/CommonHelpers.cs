@@ -69,38 +69,9 @@ namespace ApplicationCore.Helpers
 
 			return (str.ToLower() == "true");
 		}
-		public static bool ToBoolean(this int val)
-		{
-			return val > 0;
-		}
+		public static bool ToBoolean(this int val) => val > 0;
 
-		public static int ToInt(this bool val)
-		{
-			if (val) return 1;
-			return 0;
-
-		}
-
-		public static List<int> SplitToIntList(this string str, char splitBy = ',')
-		{
-			if (String.IsNullOrEmpty(str)) return new List<int>();
-			return str.Split(splitBy).Select(s => s.ToInt()).ToList();
-		}
-
-		public static List<int> SplitToIds(this string str, char splitBy = ',')
-		{
-			var list = str.SplitToIntList();
-
-			if(!list.IsNullOrEmpty()) list.RemoveAll(item => item == 0);
-
-			return list;
-		}
-
-		public static string JoinToStringIntegers(this List<int> list, bool greaterThanZero = false)
-		{
-			if (greaterThanZero) list = list.Where(id => id > 0).ToList();
-			return String.Join(",", list.Select(x => x.ToString()));
-		}
+		public static int ToInt(this bool val) => val ? 1 : 0;
 
 		public static bool AllTheSame(this List<int> listA, List<int> listB)
 			=> listB.All(listA.Contains) && listA.Count == listB.Count;

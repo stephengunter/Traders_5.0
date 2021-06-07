@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "src\Web\Web.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMakerWinApp", "src\OrderMakerWinApp\OrderMakerWinApp.csproj", "{C82DED15-80D5-4DE6-8516-8A33A8277224}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiverWinApp", "src\ReceiverWinApp\ReceiverWinApp.csproj", "{2ECE3A40-D9DE-4D32-8C8B-A6FBF50C39B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiverWinApp", "src\ReceiverWinApp\ReceiverWinApp.csproj", "{2ECE3A40-D9DE-4D32-8C8B-A6FBF50C39B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

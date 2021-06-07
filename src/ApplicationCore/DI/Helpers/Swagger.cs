@@ -40,6 +40,29 @@ namespace ApplicationCore.DI
                         new List<string>()
                     }
                 });
+
+                c.AddSecurityDefinition(ApiKeyConstants.HeaderName, new OpenApiSecurityScheme
+                {
+                    Description = "Api key needed to access the endpoints. X-Api-Key: My_API_Key",
+                    In = ParameterLocation.Header,
+                    Name = ApiKeyConstants.HeaderName,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Name = ApiKeyConstants.HeaderName,
+                            Type = SecuritySchemeType.ApiKey,
+                            In = ParameterLocation.Header,
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = ApiKeyConstants.HeaderName },
+                        },
+                        new string[] {}
+                    }
+                });
+
             });
         }
     }

@@ -20,25 +20,19 @@ namespace ApplicationCore.Exceptions
 		}
 	}
 
-	public class AddUserToRoleException : Exception
+	
+
+	public class UserPasswordException : Exception
 	{
-		public AddUserToRoleException(string message) : base(message)
+		public UserPasswordException(string message) : base(message)
 		{
 
 		}
 	}
 
-	public class RemoveUserToRoleException : Exception
+	public class WrongPasswordException : Exception
 	{
-		public RemoveUserToRoleException(string message) : base(message)
-		{
-
-		}
-	}
-
-	public class UserAddPasswordException : Exception
-	{
-		public UserAddPasswordException(string message) : base(message)
+		public WrongPasswordException(string message) : base(message)
 		{
 
 		}

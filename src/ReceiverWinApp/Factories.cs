@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Brokages;
+using ApplicationCore.Brokages.Binance;
 using ApplicationCore.Brokages.Capital;
 using ApplicationCore.Managers;
 using ApplicationCore.Receiver;
@@ -24,7 +25,8 @@ namespace ReceiverWinApp
             //else return new CapitalOrderMaker(settings);
 
 
-            return new CapitalBrokage(settings);
+            //return new CapitalBrokage(settings);
+            return new BinanceBrokage(settings);
         }
 
         public static IFuturesLocalService CreateFuturesLocalService() => new FuturesLocalService();

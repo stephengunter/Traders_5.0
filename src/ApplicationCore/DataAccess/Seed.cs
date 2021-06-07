@@ -36,6 +36,8 @@ namespace ApplicationCore.DataAccess
 				await SeedRoles(roleManager);
 				await SeedUsers(userManager);
 
+				await SeedSymbols(defaultContext);
+
 			}
 
 			Console.WriteLine("Done seeding database.");
@@ -121,9 +123,32 @@ namespace ApplicationCore.DataAccess
 			}
 		}
 
-		
+		static async Task SeedSymbols(DefaultContext context)
+		{
+			var symbols = new List<Symbol> 
+			{ 
+				new Symbol { Code = SymbolCodes.TXI, Title = "台股指數", Type = SymbolType.Index, TimeZone = Models.TimeZone.TW },
+				new Symbol { Code = SymbolCodes.TXF, Title = "台指期", Type = SymbolType.Futures, TimeZone = Models.TimeZone.TW },
+				new Symbol { Code = SymbolCodes.BTCUSD, Title = "比特幣/美元", Type = SymbolType.Crypto, TimeZone = Models.TimeZone.UTC }
+
+			};
+			foreach (var symbol in symbols)
+			{
+				await AddSymbolIfNotExist(context, symbol);
+			}
 
 
+		}
+
+		static async Task AddSymbolIfNotExist(DefaultContext context, Symbol symbol)
+		{
+			var existingEntity = await context.Symbols.FirstOrDefaultAsync(x => x.Code == symbol.Code);
+			if (existingEntity == null)
+			{
+				await context.Symbols.AddAsync(symbol);
+				await context.SaveChangesAsync();
+			}
+		}
 
 	}
 }

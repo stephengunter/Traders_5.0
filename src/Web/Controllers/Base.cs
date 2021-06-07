@@ -72,7 +72,14 @@ namespace Web.Controllers
 		}
 	}
 
-	
+	[EnableCors("Global")]
+	[Route("user/[controller]")]
+	[Authorize]
+	public class BaseUserController : BaseController
+	{
+		
+	}
+
 	[Route("tests/[controller]")]
 	public abstract class BaseTestController : BaseController
 	{

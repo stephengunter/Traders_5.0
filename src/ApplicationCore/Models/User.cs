@@ -11,6 +11,8 @@ namespace ApplicationCore.Models
 	{
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+		public ICollection<ApiKey> ApiKeys { get; set; }
+
 		public ICollection<OAuth> OAuthList { get; set; }
 
 		public RefreshToken RefreshToken { get; set; }

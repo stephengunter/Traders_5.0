@@ -43,10 +43,10 @@ namespace ApplicationCore.Auth
             var claims = new[]
             {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
-                 new Claim("provider", provider),
-                 new Claim("picture", picture),
-                 new Claim("name", name),
-                 new Claim("roles", roles.IsNullOrEmpty() ? "" : String.Join(",", roles)),
+                 new Claim(ClaimKeys.Provider, provider),
+                 new Claim(ClaimKeys.Picture, picture),
+                 new Claim(ClaimKeys.Name, name),
+                 new Claim(ClaimKeys.Roles, roles.JoinToString()),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
@@ -75,7 +75,7 @@ namespace ApplicationCore.Auth
             var claims = new[]
             {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
-                 new Claim("roles", roles.IsNullOrEmpty() ? "" : String.Join(",", roles)),
+                 new Claim(ClaimKeys.Roles, roles.JoinToString()),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),

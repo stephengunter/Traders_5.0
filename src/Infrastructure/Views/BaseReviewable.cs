@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Infrastructure.Views
 {
-    public abstract class BaseReviewableView : BaseRecordView
+    public abstract class BaseReviewableViewModel : BaseRecordViewModel
     {
         public bool Reviewed { get; set; }
     }

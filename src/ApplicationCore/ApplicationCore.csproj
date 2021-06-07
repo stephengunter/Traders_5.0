@@ -25,6 +25,7 @@
     <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Binance.Net" Version="6.13.3" />
     <PackageReference Include="Google.Apis" Version="1.51.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.51.0" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.4.0" />
@@ -56,6 +57,10 @@
     <Compile Update="Brokages\Capital\CapitalBrokage.Receiver.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Auth\Jwt\" />
   </ItemGroup>
 
 </Project>

@@ -1,24 +1,18 @@
 ﻿using ApplicationCore.Exceptions;
 using ApplicationCore.Helpers;
-using ApplicationCore.Managers;
 using ApplicationCore.Receiver;
 using ApplicationCore.Receiver.Views;
-using NLog;
 using SKCOMLib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApplicationCore.Brokages.Capital
 {
     public partial class CapitalBrokage
     {
         private SKQuoteLib _SKQuoteLib;
-        private Dictionary<short, string> _symbolIndexCode = new Dictionary<short, string>();
-        private Dictionary<short, double> _symbolIndexPoints = new Dictionary<short, double>();
 
+        int _date = DateTime.Today.ToDateNumber();
         void InitReceiver()
         {
             _SKQuoteLib = new SKQuoteLib();
@@ -93,55 +87,9 @@ namespace ApplicationCore.Brokages.Capital
 
         #endregion
 
-        #region Helpers
-        int _date = DateTime.Today.ToDateNumber();
-        const string TX_SYMBOL_KEY = "TX00";
-
-        void InitSymbolIndexCode()
-        {
-            _symbolIndexCode = new Dictionary<short, string>();
-            _symbolIndexPoints = new Dictionary<short, double>();
-
-            var tx = GetSKSTOCKByCode(TX_SYMBOL_KEY);
-            _symbolIndexCode[tx.sStockIdx] = TX_SYMBOL_KEY;
-
-            double txPoints = 1;
-            for (int i = 0; i < tx.sDecimal; i++)
-            {
-                txPoints *= 10;
-            }
-            _symbolIndexPoints[tx.sStockIdx] = txPoints;
-
-            if (_symbolCodes.IsNullOrEmpty()) return;
-
-            foreach (var code in _symbolCodes)
-            {
-                var pSKStock = GetSKSTOCKByCode(code);
-                _symbolIndexCode[pSKStock.sStockIdx] = code;
-
-                double symbolPoints = 1;
-                for (int i = 0; i < pSKStock.sDecimal; i++)
-                {
-                    symbolPoints *= 10;
-                }
-                _symbolIndexPoints[pSKStock.sStockIdx] = symbolPoints;
-            }
-        }
-        SKSTOCK GetSKSTOCKByCode(string code)
-        {
-            SKSTOCK pSKStock = new SKSTOCK();
-            int nCode = _SKQuoteLib.SKQuoteLib_GetStockByNo(code, ref pSKStock);
-            return pSKStock;
-        }
         
 
-        bool IsStock(string code) => code != TX_SYMBOL_KEY;
-        #endregion 
-
-        
-
-        public event EventHandler NotifyStockTick;
-        public event EventHandler NotifyFuturesTick;
+        public event EventHandler NotifyTick;
         
 
         void SKQuoteLib_OnConnection(int nKind, int nCode)
@@ -206,8 +154,7 @@ namespace ApplicationCore.Brokages.Capital
             };
 
             var e = new TickEventArgs(code, tick, realTime);
-            if (IsStock(code)) NotifyStockTick?.Invoke(this, e);
-            else NotifyFuturesTick?.Invoke(this, e);
+            NotifyTick?.Invoke(this, e);
         }
 
        

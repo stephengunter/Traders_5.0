@@ -2,6 +2,7 @@
 using ApplicationCore.Services;
 using ApplicationCore.Settings;
 using ApplicationCore.Views;
+using ApplicationCore.Models;
 using ApplicationCore.ViewServices;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
-using ApplicationCore.Models;
 
 namespace Web.Controllers.Tests
 {
@@ -27,8 +27,8 @@ namespace Web.Controllers.Tests
             _authService = authService;
         }
 
-        User _testUser = null;
-        User TestUser
+		ApplicationCore.Models.User _testUser = null;
+		ApplicationCore.Models.User TestUser
         {
             get
             {

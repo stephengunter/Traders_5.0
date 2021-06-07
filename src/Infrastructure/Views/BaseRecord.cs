@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Infrastructure.Views
 {
-	public abstract class BaseRecordView
+	public abstract class BaseRecordViewModel : BaseEntityViewModel
 	{
 		public DateTime CreatedAt { get; set; }
 		public DateTime LastUpdated { get; set; }

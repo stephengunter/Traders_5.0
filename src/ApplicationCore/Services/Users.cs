@@ -32,6 +32,7 @@ namespace ApplicationCore.Services
         Task<bool> HasPasswordAsync(User user);
         Task<bool> CheckPasswordAsync(User user, string password);
         Task AddPasswordAsync(User user, string password);
+        Task ChangePasswordAsync(User user, string oldPassword, string password);
     }
 
     public class UsersService : IUsersService
@@ -50,6 +51,8 @@ namespace ApplicationCore.Services
         string SubscriberRoleName = AppRoles.Subscriber.ToString();
         string DevRoleName = AppRoles.Dev.ToString();
         string BossRoleName = AppRoles.Boss.ToString();
+
+        const string PASSEORD_MISMATCH = "PasswordMismatch";
 
         public async Task<User> FindUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
 
@@ -164,9 +167,27 @@ namespace ApplicationCore.Services
             if (!result.Succeeded)
             {
                 var error = result.Errors.FirstOrDefault();
-                throw new UserAddPasswordException($"{error.Code} : {error.Description}");
+                throw new UserPasswordException($"{error.Code} : {error.Description}");
             }
         }
-        
+
+        public async Task ChangePasswordAsync(User user, string oldPassword, string password)
+        {
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, password);
+            if (!result.Succeeded)
+            {
+                var error = result.Errors.FirstOrDefault();
+                if (error.Code.EqualTo(PASSEORD_MISMATCH))
+                {
+                    throw new WrongPasswordException($"{error.Code} : {error.Description}");
+                }
+                else
+                {
+                    throw new UserPasswordException($"{error.Code} : {error.Description}");
+                }
+                
+            }
+        }
+
     }
 }

@@ -6,6 +6,7 @@ using ApplicationCore.Auth;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ApplicationCore.Auth.ApiKey;
 
 namespace ApplicationCore.DI
 {
@@ -38,6 +39,8 @@ namespace ApplicationCore.DI
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
+
+
 
             services.AddAuthentication(options =>
             {

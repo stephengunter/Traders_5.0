@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Infrastructure.Views
 {
-	public class BaseCategoryView : BaseRecordView
+	public abstract class BaseCategoryView : BaseRecordViewModel
 	{
 		public string Title { get; set; }
 		

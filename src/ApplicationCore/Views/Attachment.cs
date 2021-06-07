@@ -8,10 +8,8 @@ using ApplicationCore.Helpers;
 
 namespace ApplicationCore.Views
 {
-	public class AttachmentViewModel : BaseRecordView
+	public class AttachmentViewModel : BaseRecordViewModel
 	{
-		public int Id { get; set; }
-
 		public int PostId { get; set; }
 
 		public string PostType { get; set; }

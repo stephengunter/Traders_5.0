@@ -10,8 +10,6 @@ namespace Web.Controllers
 	{
 		private readonly IUsersService _usersService;
 		private readonly IAuthService _authService;
-
-
 		public AuthController(IUsersService usersService, IAuthService authService)
 		{
 			_usersService = usersService;

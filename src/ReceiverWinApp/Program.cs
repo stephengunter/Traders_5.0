@@ -39,7 +39,7 @@ namespace ReceiverWinApp
             //if (mode.EqualTo("BasicTest")) Application.Run(new BasicTestForm());
             //else Application.Run(new Main());
 
-            Application.Run(new Form1());
+            Application.Run(new Main());
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

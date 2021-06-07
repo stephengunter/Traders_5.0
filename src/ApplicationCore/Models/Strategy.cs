@@ -35,22 +35,7 @@ namespace ApplicationCore.Models
 
         List<IIndicator> indicators = new List<IIndicator>();
 
-        public void Init(List<Indicator> indicators, List<Quote> quotes)
-        {
-            for (var i = 0; i < indicators.Count; i++)
-            {
-                Indicator indicator = null;
-                if (indicators[i].Entity == nameof(BlueChips))
-                {
-                    indicator = indicators[i] as BlueChips;
-                }
-
-                var settings = IndicatorSettings.Where(item => item.IndicatorId == indicators[i].Id).FirstOrDefault();
-                indicator.Init(quotes, settings);
-
-                this.indicators.Add(indicator);
-            }
-        }
+       
 
 
     }

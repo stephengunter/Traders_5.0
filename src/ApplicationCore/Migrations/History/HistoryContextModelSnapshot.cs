@@ -18,38 +18,6 @@ namespace ApplicationCore.Migrations.History
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApplicationCore.Models.Data", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Date")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Indicator")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuoteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Time")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Val")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuoteId");
-
-                    b.ToTable("Data");
-                });
-
             modelBuilder.Entity("ApplicationCore.Models.Quote", b =>
                 {
                     b.Property<int>("Id")
@@ -60,40 +28,30 @@ namespace ApplicationCore.Migrations.History
                     b.Property<int>("Date")
                         .HasColumnType("int");
 
-                    b.Property<int>("High")
-                        .HasColumnType("int");
+                    b.Property<decimal>("High")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Low")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Low")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Open")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Open")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Time")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Vol")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Quotes");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Models.Data", b =>
-                {
-                    b.HasOne("ApplicationCore.Models.Quote", "Quote")
-                        .WithMany("DataList")
-                        .HasForeignKey("QuoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quote");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Models.Quote", b =>
-                {
-                    b.Navigation("DataList");
                 });
 #pragma warning restore 612, 618
         }

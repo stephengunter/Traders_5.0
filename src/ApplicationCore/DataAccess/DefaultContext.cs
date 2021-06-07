@@ -16,10 +16,11 @@ namespace ApplicationCore.DataAccess
 		{
 			
 		}
-
+		public DbSet<Symbol> Symbols { get; set; }
 		public DbSet<UploadFile> UploadFiles { get; set; }
 		public DbSet<RefreshToken> RefreshTokens { get; set; }
 		public DbSet<OAuth> OAuth { get; set; }
+		public DbSet<ApiKey> ApiKeys { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder builder)
