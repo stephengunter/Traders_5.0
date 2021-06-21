@@ -1,16 +1,15 @@
 ﻿using ApplicationCore.Helpers;
 using ApplicationCore.Managers;
 using ApplicationCore.OrderMaker;
-using ApplicationCore.Brokages;
+using ApplicationCore.Brokages.Capital;
+using ApplicationCore.Brokages.Fake;
 using ApplicationCore.OrderMaker.Managers;
 using ApplicationCore.OrderMaker.Models;
 using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ApplicationCore.Brokages.Capital;
+using ApplicationCore;
+using ApplicationCore.Brokages;
+using WinFormLibrary.Brokages.Capital;
+using WinFormLibrary.Brokages.Concord;
 
 namespace OrderMakerWinApp
 {
@@ -24,13 +23,9 @@ namespace OrderMakerWinApp
         }
         public static IOrderMaker CreateOrderMaker(string name, BrokageSettings settings)
         {
-            //if (name.EqualTo(ProviderName.FAKE.ToString())) return new FakeOrderMaker(settings);
-            //else if (name.EqualTo(ProviderName.HUA_NAN.ToString())) return new HuaNanDDSCOrderMaker(settings);
-            //else if (name.EqualTo(ProviderName.CONCORD.ToString())) return new ConcordOrderMaker(settings);
-            //else return new CapitalOrderMaker(settings);
-
-
-            return new CapitalBrokage(settings);
+            if (name.EqualTo(BrokageName.FAKE.ToString())) return new FakeBrokage(settings);
+            else if (name.EqualTo(BrokageName.CAPITAL.ToString())) return new CapitalBrokage(settings);
+            else return new ConcordBrokage(settings);
         }
 
     }

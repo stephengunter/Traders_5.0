@@ -36,12 +36,10 @@ namespace OrderMakerWinApp
 
             string mode = settings[AppSettingsKey.Mode].Value;
 
-            //if (mode.EqualTo("BasicTest")) Application.Run(new BasicTestForm());
-            //else if (mode.EqualTo("ApiTest")) Application.Run(new APITestForm());
-            //else if (mode.EqualTo("StrategyTest")) Application.Run(new StrategyTestForm());
-            //else Application.Run(new Main());
-
-            Application.Run(new Form1());
+            if (mode.EqualTo("BasicTest")) Application.Run(new BasicTestForm());
+            else if (mode.EqualTo("ApiTest")) Application.Run(new APITestForm());
+            else if (mode.EqualTo("StrategyTest")) Application.Run(new StrategyTestForm());
+            else Application.Run(new Main());
 
         }
 

@@ -22,8 +22,6 @@ namespace ApplicationCore.OrderMaker
             AccountPositionUpdated?.Invoke(this, e);
         }
 
-        public List<string> Test() => _accounts.Select(x => x.Number).ToList();
-
         List<AccountViewModel> _accounts = new List<AccountViewModel>();
         protected void AddAccount(AccountViewModel account)
         {

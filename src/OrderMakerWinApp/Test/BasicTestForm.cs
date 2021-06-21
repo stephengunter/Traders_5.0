@@ -36,7 +36,7 @@ namespace OrderMakerWinApp.Test
             CheckBasicSettings();
             if (_basicSettingOK)
             {
-                //InitOrderMaker();
+                InitOrderMaker();
             }
             else
             {

@@ -70,15 +70,6 @@ namespace OrderMakerWinApp
             string password = BrokageSettings.Password;
             if (String.IsNullOrEmpty(password)) return false;
 
-            try
-            {
-                password = CryptoGraphy.DecryptCipherTextToPlainText(password, SecurityKey);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
             return true;
         }
 

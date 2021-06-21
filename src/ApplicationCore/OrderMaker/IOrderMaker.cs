@@ -9,7 +9,6 @@ namespace ApplicationCore.OrderMaker
 {
     public interface IOrderMaker
     {
-        List<string> Test();
 
         event EventHandler ExceptionHappend;
 

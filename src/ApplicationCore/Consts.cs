@@ -14,15 +14,23 @@ namespace ApplicationCore
         public static string SubscribesSettings = "SubscribesSettings";
         public static string CloudStorageSettings = "CloudStorageSettings";
     }
-
     public class ApiKeyConstants
     {
         public const string HeaderName = "X-Api-Key";
+    }
+
+
+    public enum CRUDConstants
+    {
+        Create,
+        Update,
+        Delete
     }
     public class SymbolCodes
     {
         public static string TXI = "TXI";
         public static string TXF = "TXF";
+        public static string MTX = "MTX";
         public static string BTCUSD = "BTCUSD";
     }
     public enum HttpClients

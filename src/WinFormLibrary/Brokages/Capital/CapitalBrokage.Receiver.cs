@@ -7,7 +7,7 @@ using SKCOMLib;
 using System;
 using System.Collections.Generic;
 
-namespace ApplicationCore.Brokages.Capital
+namespace WinFormLibrary.Brokages.Capital
 {
     public partial class CapitalBrokage
     {

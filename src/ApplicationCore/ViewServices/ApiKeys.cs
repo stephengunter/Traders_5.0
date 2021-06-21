@@ -9,7 +9,7 @@ using ApplicationCore.Views;
 
 namespace ApplicationCore.ViewServices
 {
-    public static class ApiKeys
+    public static class ApiKeysViewService
     {
         public static ApiKeyViewModel MapViewModel(this ApiKey apiKey, IMapper mapper)
             => mapper.Map<ApiKeyViewModel>(apiKey);

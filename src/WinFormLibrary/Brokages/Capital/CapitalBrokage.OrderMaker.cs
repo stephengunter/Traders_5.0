@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Brokages.Capital
+namespace WinFormLibrary.Brokages.Capital
 {
     public partial class CapitalBrokage
     {

@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "src\Appl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "src\Web\Web.csproj", "{43EFD312-7C05-432F-A8AB-332619A3C5D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMakerWinApp", "src\OrderMakerWinApp\OrderMakerWinApp.csproj", "{C82DED15-80D5-4DE6-8516-8A33A8277224}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiverWinApp", "src\ReceiverWinApp\ReceiverWinApp.csproj", "{2ECE3A40-D9DE-4D32-8C8B-A6FBF50C39B4}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{43EFD312-7C05-432F-A8AB-332619A3C5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43EFD312-7C05-432F-A8AB-332619A3C5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43EFD312-7C05-432F-A8AB-332619A3C5D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C82DED15-80D5-4DE6-8516-8A33A8277224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C82DED15-80D5-4DE6-8516-8A33A8277224}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C82DED15-80D5-4DE6-8516-8A33A8277224}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C82DED15-80D5-4DE6-8516-8A33A8277224}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2ECE3A40-D9DE-4D32-8C8B-A6FBF50C39B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2ECE3A40-D9DE-4D32-8C8B-A6FBF50C39B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ECE3A40-D9DE-4D32-8C8B-A6FBF50C39B4}.Release|Any CPU.ActiveCfg = Release|Any CPU

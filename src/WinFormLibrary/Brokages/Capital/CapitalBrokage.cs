@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApplicationCore.Brokages.Capital
+namespace WinFormLibrary.Brokages.Capital
 {
     public partial class CapitalBrokage : BaseOrderMaker, IQuoteSource
     {

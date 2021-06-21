@@ -1,6 +1,5 @@
 ﻿using ApplicationCore.Brokages;
 using ApplicationCore.Brokages.Binance;
-using ApplicationCore.Brokages.Capital;
 using ApplicationCore.Managers;
 using ApplicationCore.Receiver;
 using ApplicationCore.Receiver.Services;

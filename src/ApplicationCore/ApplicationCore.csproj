@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Brokages\Concord\**" />
+    <EmbeddedResource Remove="Brokages\Concord\**" />
+    <None Remove="Brokages\Concord\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Receiver\BaseReceiver.cs" />
     <Compile Remove="Receiver\Capital.cs" />
   </ItemGroup>
@@ -26,6 +32,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Binance.Net" Version="6.13.3" />
+    <PackageReference Include="CsvHelper" Version="27.1.0" />
     <PackageReference Include="Google.Apis" Version="1.51.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.51.0" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.4.0" />
@@ -54,13 +61,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Brokages\Capital\CapitalBrokage.Receiver.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
+    <Folder Include="Auth\Jwt\" />
+    <Folder Include="Brokages\Capital\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Auth\Jwt\" />
+    <Reference Include="Concord.API.Future.Client">
+      <HintPath>..\..\..\..\..\..\..\..\CONCORDS\Concord.API.Future.Client 1.0.10\Concord.API.Future.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

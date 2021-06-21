@@ -23,6 +23,18 @@ namespace Infrastructure.Views
 
 		public string LastUpdatedText => LastUpdated.ToString("yyyy-MM-dd HH:mm:ss");
 
+		public virtual bool CanRemove
+		{
+			get
+			{
+				if (Id > 0)
+				{
+					return !Active;
+				}
+				return false;
+			}
+	    }
+
 		public void SetUpdated(string userId)
 		{
 			UpdatedBy = userId;
