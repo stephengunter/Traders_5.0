@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Exceptions;
 using ApplicationCore.Helpers;
 using ApplicationCore.Receiver;
-using ApplicationCore.Receiver.Views;
+using ApplicationCore.Views;
 using ApplicationCore;
 using SKCOMLib;
 using System;

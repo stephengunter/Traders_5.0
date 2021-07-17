@@ -18,7 +18,7 @@ namespace ApplicationCore.Migrations.History
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApplicationCore.Models.Quote", b =>
+            modelBuilder.Entity("ApplicationCore.Models.KLine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace ApplicationCore.Migrations.History
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quotes");
+                    b.ToTable("KLines");
                 });
 #pragma warning restore 612, 618
         }

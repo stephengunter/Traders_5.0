@@ -65,9 +65,9 @@ namespace Web.Controllers.Admin
 		}
 
 		[HttpGet("edit/{id}")]
-		public async Task<ActionResult> Edit(int id)
+		public ActionResult Edit(int id)
 		{
-			var symbol = await _symbolsService.GetByIdAsync(id);
+			var symbol = _symbolsService.GetById(id);
 			if (symbol == null) return NotFound();
 
 			var model = symbol.MapViewModel(_mapper);

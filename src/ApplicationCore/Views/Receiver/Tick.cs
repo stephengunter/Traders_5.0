@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Receiver.Views
+namespace ApplicationCore.Views
 {
 	public class TickViewModel
 	{

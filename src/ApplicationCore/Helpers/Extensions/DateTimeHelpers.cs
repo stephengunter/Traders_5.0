@@ -55,7 +55,7 @@ namespace ApplicationCore.Helpers
 		public static string ToTimeString(this int val)
 		{
 			string str = val.ToString();
-			if (str.Length != 6) str = "0" + str;
+			while (str.Length < 6) str = "0" + str;
 
 			string h = str.Substring(0, 2);
 			string m = str.Substring(2, 2);
@@ -103,8 +103,24 @@ namespace ApplicationCore.Helpers
 
 
 			return year + month + day;
+		}
+
+		public static DateTime? GetDate(this string val)
+		{
+			if (val.Length != 8) return null;
+
+			int year = val.Substring(0, 4).ToInt();
+			int month = val.Substring(4, 2).ToInt();
+			int day = val.Substring(6, 2).ToInt();
+
+			if(year == 0 || month == 0 || day == 0) return null;
+			if(month > 12 || day > 31) return null;
+
+			return new DateTime(year, month, day);
 
 		}
+
+		public static DateTime? GetDate(this int val) => val.ToString().GetDate();
 
 		public static List<BaseOption<int>> GetYearOptions(this DateTime fromDate, bool chinese = false)
 		{
@@ -160,9 +176,10 @@ namespace ApplicationCore.Helpers
 
 		}
 
+		public static int[] ToTimes(this int val) => val.ToString().ToTimes();
 		public static int[] ToTimes(this string strVal)
 		{
-			if (strVal.Length < 6) strVal = "0" + strVal;
+			while (strVal.Length < 6) strVal = "0" + strVal;
 
 			var hour = strVal.Substring(0, 2).ToInt();
 			var minute = strVal.Substring(2, 2).ToInt();

@@ -18,7 +18,7 @@ namespace ApplicationCore.Migrations.RealTime
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApplicationCore.Models.Quote", b =>
+            modelBuilder.Entity("ApplicationCore.Models.KLine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,43 @@ namespace ApplicationCore.Migrations.RealTime
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quotes");
+                    b.ToTable("KLines");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Models.Tick", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Bid")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Date")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Offer")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ticks");
                 });
 #pragma warning restore 612, 618
         }

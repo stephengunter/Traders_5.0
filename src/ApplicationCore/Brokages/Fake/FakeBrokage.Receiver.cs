@@ -1,7 +1,6 @@
 ﻿using ApplicationCore.Exceptions;
 using ApplicationCore.Helpers;
 using ApplicationCore.Receiver;
-using ApplicationCore.Receiver.Views;
 using SKCOMLib;
 using System;
 using System.Collections.Generic;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationCore.Receiver.Views;
+using ApplicationCore.Views;
 
-namespace ApplicationCore.Receiver.ViewServices
+namespace ApplicationCore.ViewServices
 {
     public static class TicksViewService
     {

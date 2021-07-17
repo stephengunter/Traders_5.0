@@ -5,7 +5,6 @@ using ApplicationCore.Helpers;
 using ApplicationCore.Managers;
 using ApplicationCore.OrderMaker;
 using ApplicationCore.Receiver;
-using ApplicationCore.Receiver.Views;
 using NLog;
 using SKCOMLib;
 using System;

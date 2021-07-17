@@ -60,6 +60,33 @@ namespace ApplicationCore.Migrations
                     b.ToTable("ApiKeys");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Models.Data", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Data");
+                });
+
             modelBuilder.Entity("ApplicationCore.Models.OAuth", b =>
                 {
                     b.Property<int>("Id")
@@ -160,6 +187,32 @@ namespace ApplicationCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Symbols");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Models.TradeSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Close")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Default")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Open")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SymbolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SymbolId");
+
+                    b.ToTable("TradeSessions");
                 });
 
             modelBuilder.Entity("ApplicationCore.Models.UploadFile", b =>
@@ -445,6 +498,17 @@ namespace ApplicationCore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Models.TradeSession", b =>
+                {
+                    b.HasOne("ApplicationCore.Models.Symbol", "Symbol")
+                        .WithMany("TradeSessions")
+                        .HasForeignKey("SymbolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Symbol");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -494,6 +558,11 @@ namespace ApplicationCore.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Models.Symbol", b =>
+                {
+                    b.Navigation("TradeSessions");
                 });
 
             modelBuilder.Entity("ApplicationCore.Models.User", b =>

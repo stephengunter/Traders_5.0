@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApplicationCore.Views
 {
@@ -13,6 +11,8 @@ namespace ApplicationCore.Views
 		public string Code { get; set; }
 		public string Title { get; set; }
 		public string TimeZone { get; set; }
+
+		public ICollection<TradeSessionViewModel> TradeSessions { get; set; } = new List<TradeSessionViewModel>();
 
 	}
 }

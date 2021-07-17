@@ -141,8 +141,8 @@ namespace Web.Controllers.Admin
 		
 			_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-			var quotes = _context.Quotes.ToList();
-			SaveJson(folderPath, new Quote().GetType().Name, JsonConvert.SerializeObject(quotes));
+			var kLines = _context.KLines.ToList();
+			SaveJson(folderPath, new KLine().GetType().Name, JsonConvert.SerializeObject(kLines));
 
 			return Ok();
 		}
@@ -170,16 +170,16 @@ namespace Web.Controllers.Admin
 			}
 
 			string content = "";
-			string fileName = new Quote().GetType().Name;
+			string fileName = new KLine().GetType().Name;
 			var file = model.GetFile(fileName);
 			if (file != null)
 			{
 				fileNames.Add(fileName);
 				content = await ReadFileTextAsync(file);
-				var quoteList = JsonConvert.DeserializeObject<List<Quote>>(content);
-				_dBImportService.ImportQuotes(_context, quoteList);
+				var kLineList = JsonConvert.DeserializeObject<List<KLine>>(content);
+				_dBImportService.ImportKLines(_context, kLineList);
 
-				_dBImportService.SyncQuotes(_context, quoteList);
+				_dBImportService.SyncKLines(_context, kLineList);
 
 			}
 

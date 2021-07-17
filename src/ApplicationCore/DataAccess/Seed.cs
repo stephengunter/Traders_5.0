@@ -128,7 +128,7 @@ namespace ApplicationCore.DataAccess
 			var symbols = new List<Symbol> 
 			{ 
 				new Symbol { Code = SymbolCodes.TXI, Title = "台股指數", Type = SymbolType.Index, TimeZone = Models.TimeZone.TW },
-				new Symbol { Code = SymbolCodes.TXF, Title = "台指期", Type = SymbolType.Futures, TimeZone = Models.TimeZone.TW },
+				new Symbol { Code = SymbolCodes.TX, Title = "台指期", Type = SymbolType.Futures, TimeZone = Models.TimeZone.TW },
 				new Symbol { Code = SymbolCodes.BTCUSD, Title = "比特幣/美元", Type = SymbolType.Crypto, TimeZone = Models.TimeZone.UTC }
 
 			};

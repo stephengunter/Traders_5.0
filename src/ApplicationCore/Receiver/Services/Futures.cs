@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Helpers;
-using ApplicationCore.Receiver.Views;
-using ApplicationCore.Receiver.ViewServices;
+using ApplicationCore.Views;
+using ApplicationCore.ViewServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace ApplicationCore.Receiver.Services
 		IEnumerable<TickViewModel> GetTicks(int end);
 
 		IEnumerable<TickViewModel> GetAllTicks();
-		QuoteViewModel GetQuote(int begin, int end);
+		KLineViewModel GetKLine(int begin, int end);
 	}
 
 	public class FuturesLocalService : IFuturesLocalService
@@ -34,15 +34,15 @@ namespace ApplicationCore.Receiver.Services
 		public IEnumerable<TickViewModel> GetTicks(int begin, int end) => _ticks.Where(t => t.Time >= begin && t.Time < end).GetOrdered();
 		public IEnumerable<TickViewModel> GetTicks(int end) => _ticks.Where(t => t.Time < end).GetOrdered();
 		public IEnumerable<TickViewModel> GetAllTicks() => _ticks.GetOrdered();
-		public QuoteViewModel GetQuote(int begin, int end)
+		public KLineViewModel GetKLine(int begin, int end)
 		{
 			var tickList = GetTicks(begin, end);
 
 			if (tickList.IsNullOrEmpty()) return null;
 
-			return new QuoteViewModel
+			return new KLineViewModel
 			{
-				Time = end,
+				Time = end.ToString(),
 				High = tickList.Max(t => (int)t.Price),
 				Low = tickList.Min(t => (int)t.Price),
 				Open = (int)tickList.First().Price,

@@ -13,15 +13,16 @@ namespace ApplicationCore.Specifications
     {
 		public SymbolFilterSpecification() : base(x => !x.Removed)
 		{
-			
+			AddInclude(item => item.TradeSessions);
 		}
-	}
-
-	public class SymbolCodeSpecification : BaseSpecification<Symbol>
-	{
-		public SymbolCodeSpecification(string code) : base(x => !x.Removed && x.Code.ToUpper() == code.ToUpper())
+		public SymbolFilterSpecification(int id) : base(x => !x.Removed && x.Id == id)
 		{
-
+			AddInclude(item => item.TradeSessions);
 		}
+		public SymbolFilterSpecification(string code) : base(x => !x.Removed && x.Code.ToUpper() == code.ToUpper())
+		{
+			AddInclude(item => item.TradeSessions);
+		}
+
 	}
 }

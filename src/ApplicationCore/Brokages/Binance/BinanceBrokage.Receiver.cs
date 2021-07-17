@@ -32,13 +32,13 @@ namespace ApplicationCore.Brokages.Binance
             //var result = _socketClient.Spot.SubscribeToTradeUpdates(BinanceSymbolCodes, OnTradeData);
             //if (!result.Success)
             //{
-            //    throw new QuoteSourceException(result.Error.ResolveBinanceError("RequestQuotes.SubscribeToTradeUpdates"));
+            //    throw new KLineSourceException(result.Error.ResolveBinanceError("RequestKLines.SubscribeToTradeUpdates"));
             //}
 
             //var result = _socketClient.Spot.SubscribeToKlineUpdates(BinanceSymbolCodes, OnTradeData);
             //if (!result.Success)
             //{
-            //    throw new QuoteSourceException(result.Error.ResolveBinanceError("RequestQuotes.SubscribeToTradeUpdates"));
+            //    throw new KLineSourceException(result.Error.ResolveBinanceError("RequestKLines.SubscribeToTradeUpdates"));
             //}
         }
 
@@ -56,7 +56,7 @@ namespace ApplicationCore.Brokages.Binance
                 var result = _client.Spot.Market.GetKlines(symbol, KlineInterval.OneMinute, start, end);
                 if (result.Success)
                 {
-                    var list = result.Data.Select(x => x.ToQuoteView());
+                    var list = result.Data.Select(x => x.ToKLineView());
 
                 }
                 else

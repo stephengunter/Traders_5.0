@@ -14,7 +14,7 @@ namespace ApplicationCore.Specifications
 		public AttachmentFilterSpecifications()
 			: base(item => !item.Removed)
 		{
-
+			
 		}
 
 

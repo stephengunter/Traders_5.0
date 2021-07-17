@@ -5,22 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Receiver.Views
+namespace ApplicationCore.Views
 {
-	public class QuoteViewModel : BaseEntityViewModel
+	public class KLineViewModel : BaseEntityViewModel
 	{
-		public int Date { get; set; }
-
-		public int Time { get; set; }
-
+		public string Symbol { get; set; }
+		public string Date { get; set; }
+		public string Time { get; set; }
 		public decimal Price { get; set; }
-
 		public decimal Open { get; set; }
-
 		public decimal High { get; set; }
-
 		public decimal Low { get; set; }
-
 		public decimal Vol { get; set; }
 
 	}

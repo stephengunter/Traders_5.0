@@ -4,7 +4,6 @@ using ApplicationCore.Managers;
 using ApplicationCore.OrderMaker;
 using ApplicationCore.OrderMaker.Views;
 using ApplicationCore.Receiver;
-using ApplicationCore.Receiver.Views;
 using System;
 using System.Collections.Generic;
 

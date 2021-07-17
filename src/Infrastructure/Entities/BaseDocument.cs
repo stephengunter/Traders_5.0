@@ -12,5 +12,18 @@ namespace Infrastructure.Entities
         public string Content { get; set; } //json string
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public string UpdatedBy { get; set; }
+
+        public void SetCreated(string updatedBy)
+        {
+            this.CreatedAt = DateTime.Now;
+            SetUpdated(updatedBy);
+        }
+
+        public void SetUpdated(string updatedBy)
+        {
+            this.UpdatedBy = updatedBy;
+            this.LastUpdated = DateTime.Now;
+        }
     }
 }

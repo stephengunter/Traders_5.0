@@ -13,8 +13,8 @@ namespace ApplicationCore.Services
     public interface IDBImportService
     {
 		void Test(string type);
-		void ImportQuotes(HistoryContext _context, List<Quote> models);
-		void SyncQuotes(HistoryContext _context, List<Quote> models);
+		void ImportKLines(HistoryContext _context, List<KLine> models);
+		void SyncKLines(HistoryContext _context, List<KLine> models);
 	}
 
 	public class DBImportService : IDBImportService
@@ -24,31 +24,31 @@ namespace ApplicationCore.Services
 			
 		}
 
-		public void ImportQuotes(HistoryContext _context, List<Quote> models)
+		public void ImportKLines(HistoryContext _context, List<KLine> models)
 		{
 			var connectionString = _context.Database.GetDbConnection().ConnectionString;
 
-			var newQuotes = new List<Quote>();
-			foreach (var quoteModel in models)
+			var newKLines = new List<KLine>();
+			foreach (var kLineModel in models)
 			{
-				//var existingEntity = _context.Quotes.Find(QuoteModel.Id);
-				//if (existingEntity == null) newQuotes.Add(QuoteModel);
-				//else Update(_context, existingEntity, QuoteModel);
+				//var existingEntity = _context.KLines.Find(KLineModel.Id);
+				//if (existingEntity == null) newKLines.Add(KLineModel);
+				//else Update(_context, existingEntity, KLineModel);
 			}
 
 			_context.SaveChanges();
 
 			using (var context = new HistoryContext(connectionString))
 			{
-				//context.Quotes.AddRange(newQuotes);
-				var dbSet = context.Set<Quote>();
-				dbSet.AddRange(newQuotes);
+				//context.KLines.AddRange(newKLines);
+				var dbSet = context.Set<KLine>();
+				dbSet.AddRange(newKLines);
 				context.Database.OpenConnection();
 				try
 				{
-					context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT Quotes ON");
+					context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT KLines ON");
 					context.SaveChanges();
-					context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT Quotes OFF");
+					context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT KLines OFF");
 				}
 				finally
 				{
@@ -65,13 +65,13 @@ namespace ApplicationCore.Services
 			entry.CurrentValues.SetValues(model);
 			entry.State = EntityState.Modified;
 		}
-		public void SyncQuotes(HistoryContext _context, List<Quote> models)
+		public void SyncKLines(HistoryContext _context, List<KLine> models)
 		{
 			var ids = models.Select(x => x.Id).ToList();
 
-			var deletedEntities = _context.Quotes.Where(x => !ids.Contains(x.Id)).ToList();
+			var deletedEntities = _context.KLines.Where(x => !ids.Contains(x.Id)).ToList();
 
-			if (deletedEntities.HasItems()) _context.Quotes.RemoveRange(deletedEntities);
+			if (deletedEntities.HasItems()) _context.KLines.RemoveRange(deletedEntities);
 
 			_context.SaveChanges();
 		}

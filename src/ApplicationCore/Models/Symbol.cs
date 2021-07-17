@@ -14,6 +14,8 @@ namespace ApplicationCore.Models
         public string Title { get; set; }
         public TimeZone TimeZone { get; set; }
 
+        public ICollection<TradeSession> TradeSessions { get; set; } = new List<TradeSession>();
+
     }
     public enum SymbolType
     { 

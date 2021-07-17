@@ -1,6 +1,7 @@
 ﻿using ApplicationCore;
 using ApplicationCore.Managers;
 using ApplicationCore.Receiver;
+using ApplicationCore.Helpers;
 using NLog;
 using ReceiverWinApp.Helpers;
 using ReceiverWinApp.UI;
@@ -28,8 +29,8 @@ namespace ReceiverWinApp.Test
         {
             _settingsManager = Factories.CreateSettingsManager();
 
-            this._timeManager = Factories.CreateTimeManager(_settingsManager.GetSettingValue(AppSettingsKey.Begin),
-                _settingsManager.GetSettingValue(AppSettingsKey.End));
+            this._timeManager = Factories.CreateTimeManager(_settingsManager.GetSettingValue(AppSettingsKey.Begin).ToInt(),
+                _settingsManager.GetSettingValue(AppSettingsKey.End).ToInt());
 
             InitializeComponent();
 

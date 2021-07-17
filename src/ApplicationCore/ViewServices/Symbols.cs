@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.Views;
+using Infrastructure.Views;
 
 namespace ApplicationCore.ViewServices
 {
@@ -29,9 +30,18 @@ namespace ApplicationCore.ViewServices
             var entity = mapper.Map<SymbolViewModel, Symbol>(model);
 
             if (model.Id == 0) entity.SetCreated(currentUserId);
-            else entity.SetUpdated(currentUserId);
+            else
+            {
+                foreach (var sessions in entity.TradeSessions)
+                {
+                    sessions.SymbolId = entity.Id;
+                }
+                entity.SetUpdated(currentUserId);
+            }
 
             return entity;
         }
+
+        public static BaseOption<string> ToOption(this Symbol symbol) => new BaseOption<string>(symbol.Code, symbol.Title);
     }
 }

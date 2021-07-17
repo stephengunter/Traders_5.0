@@ -14,7 +14,7 @@ namespace ReceiverWinApp
     public class Factories
     {
         public static ISettingsManager CreateSettingsManager() => new SettingsManager();
-        public static ITimeManager CreateTimeManager(string begin, string end) => new TimeManager(begin, end);
+        public static ITimeManager CreateTimeManager(int begin, int end) => new TimeManager(begin, end);
        
         public static IQuoteSource CreateQuoteSource(string name, BrokageSettings settings)
         {

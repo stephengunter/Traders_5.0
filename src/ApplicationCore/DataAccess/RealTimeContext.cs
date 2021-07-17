@@ -15,8 +15,8 @@ namespace ApplicationCore.DataAccess
 		{
 			
 		}
-
-		public DbSet<Quote> Quotes { get; set; }
+		public DbSet<Tick> Ticks { get; set; }
+		public DbSet<KLine> KLines { get; set; }
 		
 
 	}

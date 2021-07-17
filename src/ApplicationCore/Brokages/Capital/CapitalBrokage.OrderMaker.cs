@@ -3,7 +3,6 @@ using ApplicationCore.Exceptions;
 using ApplicationCore.Helpers;
 using ApplicationCore.Managers;
 using ApplicationCore.OrderMaker.Views;
-using ApplicationCore.Receiver.Views;
 using NLog;
 using SKCOMLib;
 using System;

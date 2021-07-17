@@ -29,7 +29,7 @@ namespace ApplicationCore
     public class SymbolCodes
     {
         public static string TXI = "TXI";
-        public static string TXF = "TXF";
+        public static string TX = "TX";
         public static string MTX = "MTX";
         public static string BTCUSD = "BTCUSD";
     }

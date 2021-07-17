@@ -11,32 +11,58 @@ using System.Threading.Tasks;
 using ApplicationCore.Auth.ApiKey;
 using Microsoft.AspNetCore.Authorization;
 using ApplicationCore;
+using Web.Models;
+using System;
+using System.Collections.Generic;
+using ApplicationCore.Models;
 
 namespace Web.Controllers.Tests
 {
-    [Authorize(Policy = "ApiKey_Admin")]
     public class ATestsController : BaseTestController
     {
+        
         private readonly AppSettings _appSettings;
-        public ATestsController(IOptions<AppSettings> appSettings)
+        private readonly ISymbolsService _symbolsService;
+        private readonly IFuturesService _futuresService;
+        public ATestsController(IOptions<AppSettings> appSettings, ISymbolsService symbolsService, IFuturesService futuresService)
         {
             _appSettings = appSettings.Value;
+            _symbolsService = symbolsService;
+            _futuresService = futuresService;
         }
 
 
         
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int dn)
         {
-            string userId = CurrentUserId;
-            string name = CurrentUserName;
-            var roles = CurrentUseRoles;
-            bool isSubscriber = CurrentUserIsSubscriber;
-           
-            return Ok();
+            var symbol = _symbolsService.GetByCode("TX");
+            DateTime? date = dn.GetDate();
+            string yearMonth = _futuresService.GetYearMonth(date.Value, symbol);
+
+
+            var ticks = new List<Tick>();
+            foreach (var tradeSession in symbol.TradeSessions)
+            {
+                if (tradeSession.Default)
+                {
+                    var kLineTimes = tradeSession.GetKLineTimes(date.Value);
+                }
+                else
+                {
+                    var kLineTimes = tradeSession.GetKLineTimes(date.Value);
+                    foreach (var time in kLineTimes)
+                    {
+                        var kline = ticks.GetKLine(time);
+
+
+                    }
+                }
+            }
+
+            return Ok(yearMonth);
+
         }
-
-
         [HttpGet("version")]
         public ActionResult Version()
         {

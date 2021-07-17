@@ -17,17 +17,11 @@ namespace ApplicationCore.Managers
 
     public class TimeManager : ITimeManager
     {
-        private readonly string begin;
-        private readonly string end;
-
         private DateTime _beginTime;
         private DateTime _endTime;
 
-        public TimeManager(string begin, string end)
+        public TimeManager(int begin, int end)
         {
-            this.begin = begin;
-
-            this.end = end;
             var now = DateTime.Now;
             var beginTimes = begin.ToTimes();
             _beginTime = new DateTime(now.Year, now.Month, now.Day, beginTimes[0], beginTimes[1], beginTimes[2]);
