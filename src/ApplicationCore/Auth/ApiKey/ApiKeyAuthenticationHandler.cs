@@ -19,16 +19,16 @@ namespace ApplicationCore.Auth.ApiKey
     public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
     {
         private const string ProblemDetailsContentType = "application/problem+json";
-        private readonly IApiKeysService _apiKeysService;
+        private readonly IUsersService _usersService;
 
         public ApiKeyAuthenticationHandler(
             IOptionsMonitor<ApiKeyAuthenticationOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IApiKeysService apiKeysService) : base(options, logger, encoder, clock)
+            IUsersService usersService) : base(options, logger, encoder, clock)
         {
-            _apiKeysService = apiKeysService ?? throw new ArgumentNullException(nameof(apiKeysService));
+            _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -45,20 +45,16 @@ namespace ApplicationCore.Auth.ApiKey
                 return AuthenticateResult.NoResult();
             }
 
-            var apiKey = _apiKeysService.Find(key);
+            var user = await _usersService.FindUserByApiKeyAsync(key);
 
-            if (apiKey != null)
+            if (user != null)
             {
-                string id = apiKey.UserId;
-                string userName = apiKey.User.UserName;
-
-
-                var roles = apiKey.Roles;
+                var roles = await _usersService.GetRolesAsync(user);
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimKeys.Name, ClaimTypes.Name),
-                    new Claim(ClaimKeys.Id, id),
-                    new Claim(ClaimKeys.Sub, userName),
+                    new Claim(ClaimKeys.Id, user.Id),
+                    new Claim(ClaimKeys.Sub, user.UserName),
                     new Claim(ClaimKeys.Roles, roles.JoinToString())
                 };
 

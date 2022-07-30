@@ -18,10 +18,12 @@ namespace ApplicationCore.Services
     public class RealTimeService : IRealTimeService
     {
         private readonly IRealTimeRepository<KLine> _realTimeRepository;
+
         public RealTimeService(IRealTimeRepository<KLine> realTimeRepository)
         {
             _realTimeRepository = realTimeRepository;
         }
+       
         public async Task AddUpdateAsync(KLine kLine)
         {
             var existingEntity = FindOne(kLine.Date, kLine.Symbol, kLine.Time);

@@ -64,7 +64,7 @@ namespace ApplicationCore.OrderMaker
                 { 10, "J" },{ 11, "K" },{ 12, "L" }
             };
 
-            var date = DateTime.Today;
+            var date = System.DateTime.Today;
 
             int year = date.Year;
             int month = date.Month;

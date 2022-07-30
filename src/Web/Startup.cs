@@ -114,11 +114,18 @@ namespace Web
 
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("ApiKey", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(ApiKeyAuthenticationOptions.DefaultScheme);
+                    policy.Requirements.Add(new HasPermissionRequirement(Permissions.User));
+                });
+
                 options.AddPolicy("ApiKey_Admin", policy =>
                 {
                     policy.AuthenticationSchemes.Add(ApiKeyAuthenticationOptions.DefaultScheme);
                     policy.Requirements.Add(new HasPermissionRequirement(Permissions.Admin));
                 });
+
 
                 options.AddPolicy(Permissions.Subscriber.ToString(), policy =>
                     policy.Requirements.Add(new HasPermissionRequirement(Permissions.Subscriber)));

@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Helpers;
+using ApplicationCore.Models;
 using ApplicationCore.Views;
 using ApplicationCore.ViewServices;
 using System;
@@ -9,45 +10,49 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Receiver.Services
 {
-	public interface IFuturesLocalService
+	public interface IFuturesService
 	{
-		void SaveTick(TickViewModel tick);
-		IEnumerable<TickViewModel> GetTicks(int begin, int end);
-		IEnumerable<TickViewModel> GetTicks(int end);
+        Dictionary<int, List<Tick>> DictionaryTicks { get; }
+    }
 
-		IEnumerable<TickViewModel> GetAllTicks();
-		KLineViewModel GetKLine(int begin, int end);
-	}
+	public class FuturesService : IFuturesService
+    {
+		private readonly Symbol _symbol;
+		private readonly TradeSession _tradeSession;
 
-	public class FuturesLocalService : IFuturesLocalService
-	{
-		private const string TX_CODE = "TX";
+        Dictionary<int, List<Tick>> _dictionaryTicks = new Dictionary<int, List<Tick>>();
 
-		List<TickViewModel> _ticks = new List<TickViewModel>();
-
-		public void SaveTick(TickViewModel tick)
+        public FuturesService(Symbol symbol, TradeSession tradeSession)
 		{
-			var exist = _ticks.FirstOrDefault(t => t.Order == tick.Order);
-			if (exist == null) _ticks.Add(tick);
-		}
+			_symbol = symbol;
+			_tradeSession = tradeSession;
 
-		public IEnumerable<TickViewModel> GetTicks(int begin, int end) => _ticks.Where(t => t.Time >= begin && t.Time < end).GetOrdered();
-		public IEnumerable<TickViewModel> GetTicks(int end) => _ticks.Where(t => t.Time < end).GetOrdered();
-		public IEnumerable<TickViewModel> GetAllTicks() => _ticks.GetOrdered();
-		public KLineViewModel GetKLine(int begin, int end)
-		{
-			var tickList = GetTicks(begin, end);
+            var openTimes = tradeSession.Open.ToTimes();
+            var open = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day,
+                                openTimes[0], openTimes[1], openTimes[2]
+                                );
 
-			if (tickList.IsNullOrEmpty()) return null;
+            var closeTimes = tradeSession.Close.ToTimes();
+            var close = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day,
+                                closeTimes[0], closeTimes[1], closeTimes[2]
+                                );
 
-			return new KLineViewModel
-			{
-				Time = end.ToString(),
-				High = tickList.Max(t => (int)t.Price),
-				Low = tickList.Min(t => (int)t.Price),
-				Open = (int)tickList.First().Price,
-				Price = (int)tickList.Last().Price
-			};
-		}
-	}
+            var time = new DateTime(open.Year, open.Month, open.Day,
+                                    open.Hour, open.Minute, open.Second
+                                   );
+
+            time = time.AddMinutes(1);
+            while (time <= close)
+            {
+                _dictionaryTicks.Add(time.ToTimeNumber(), new List<Tick>());
+                time = time.AddMinutes(1);
+            }
+        }
+
+
+        public Dictionary<int, List<Tick>> DictionaryTicks => _dictionaryTicks;
+
+
+    }
+
 }

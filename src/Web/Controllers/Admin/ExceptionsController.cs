@@ -44,10 +44,10 @@ namespace Web.Controllers.Admin
 			if (start.HasValue() || end.HasValue())
 			{
 				var startDate = start.ToStartDate();
-				if (!startDate.HasValue) startDate = DateTime.MinValue;
+				if (!startDate.HasValue) startDate = System.DateTime.MinValue;
 
 				var endDate = end.ToEndDate();
-				if (!endDate.HasValue) endDate = DateTime.MaxValue;
+				if (!endDate.HasValue) endDate = System.DateTime.MaxValue;
 
 
 				records = records.Where(x => x.DateTime >= startDate && x.DateTime <= endDate);

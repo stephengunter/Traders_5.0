@@ -26,10 +26,7 @@ namespace ApplicationCore.ViewServices
 		public static PagedList<User, UserViewModel> GetPagedList(this IEnumerable<User> users, IMapper mapper, int page = 1, int pageSize = -1)
 		{
 			var pageList = new PagedList<User, UserViewModel>(users, page, pageSize);
-
 			pageList.ViewList = pageList.List.MapViewModelList(mapper);
-
-			pageList.List = null;
 
 			return pageList;
 		}

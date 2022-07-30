@@ -6,121 +6,61 @@ using ApplicationCore.Helpers;
 
 namespace ApplicationCore.Paging
 {
-	public interface IPagedList<T,V>
-	{
-		List<T> List { get; set; }
-		List<V> ViewList { get; set; }
-
-		int TotalItems { get; set; }
-		int PageNumber { get; }
-		int PageSize { get; }
-		
-
-
-		int TotalPages { get; }
-		
-		bool HasPreviousPage { get; }
-		bool HasNextPage { get; }
-		int NextPageNumber { get; }
-		int PreviousPageNumber { get; }
-
-		string SortBy { get; }
-		bool Desc { get; }
-
-		IPagingHeader GetHeader();
-
-	}
-	public class PagedList<T,V> : IPagedList<T,V>
-	{
-		
-		public PagedList(IEnumerable<T> list, int pageNumber = 1, int pageSize = -1, string sortBy = "", bool desc = true)
-		{
-			TotalItems = list.Count();
-			PageNumber = pageNumber < 1 ? 1 : pageNumber;
-			PageSize = pageSize == 0 ? -1 : pageSize;
-
-			List = list.GetPaged(PageNumber, PageSize).ToList();
-			ViewList = new List<V>();
-
-			TotalPages = (int)Math.Ceiling(TotalItems / (double)PageSize);
-
-			HasPreviousPage= PageNumber > 1;
-			HasNextPage = PageNumber < TotalPages;
-			NextPageNumber= HasNextPage ? PageNumber + 1 : TotalPages;
-			PreviousPageNumber = HasPreviousPage ? PageNumber - 1 : 1;
-
-			SortBy = sortBy;
-			Desc = desc;
-
-		}
-
-		
-
-		public List<T> List { get; set; }
-		public List<V> ViewList { get; set; }
-
-		public int TotalItems { get; set; }
-		public int PageNumber { get; }
-		public int PageSize { get; }
-		public int TotalPages { get; }
-		public bool HasPreviousPage { get; }
-		public bool HasNextPage { get; }
-
-		public int NextPageNumber { get; }
-		public int PreviousPageNumber { get; }
-
-		public string SortBy { get; }
-		public bool Desc { get; }
-
-		public IPagingHeader GetHeader()
-		{
-			return new PagingHeader(TotalItems, PageNumber, PageSize, TotalPages);
-		}
-	}
-
-
 	public class PagedList<T>
 	{
+		private IEnumerable<T> _list;
+		private int _pageNumber = 1;
+		private int _pageSize = 999;
+
 		public PagedList(IEnumerable<T> list, int pageNumber = 1, int pageSize = -1, string sortBy = "", bool desc = true)
 		{
-			TotalItems = list.Count();
-			PageNumber = pageNumber < 1 ? 1 : pageNumber;
-			PageSize = pageSize == 0 ? -1 : pageSize;
 
-			List = list.GetPaged(PageNumber, PageSize).ToList();
+			_pageNumber = pageNumber > 0 ? pageNumber : 1;
+			_pageSize = pageSize > 0 ? pageSize : 999;
 
-			TotalPages = (int)Math.Ceiling(TotalItems / (double)PageSize);
-
-			HasPreviousPage = PageNumber > 1;
-			HasNextPage = PageNumber < TotalPages;
-			NextPageNumber = HasNextPage ? PageNumber + 1 : TotalPages;
-			PreviousPageNumber = HasPreviousPage ? PageNumber - 1 : 1;
+			_list = list;
 
 			SortBy = sortBy;
 			Desc = desc;
 
 		}
 
+		public void GoToPage(int page)
+		{
+			if (page > 0 && page <= TotalPages) _pageNumber = page;
+		} 
+
+		public List<T> List => _list.GetPaged(PageNumber, PageSize).ToList();
+
+		public int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
+		public int TotalItems => _list.Count();
+		public int PageNumber => _pageNumber;
+		public int PageSize => _pageSize;
 
 
-		public List<T> List { get; set; }
+		public bool HasPreviousPage => PageNumber > 1;
+		public bool HasNextPage => PageNumber < TotalPages;
 
-		public int TotalItems { get; set; }
-		public int PageNumber { get; }
-		public int PageSize { get; }
-		public int TotalPages { get; }
-		public bool HasPreviousPage { get; }
-		public bool HasNextPage { get; }
-
-		public int NextPageNumber { get; }
-		public int PreviousPageNumber { get; }
+		public int NextPageNumber => HasNextPage ? PageNumber + 1 : TotalPages;
+		public int PreviousPageNumber => HasPreviousPage ? PageNumber - 1 : 1;
 
 		public string SortBy { get; }
 		public bool Desc { get; }
 
 		public IPagingHeader GetHeader()
-		{
-			return new PagingHeader(TotalItems, PageNumber, PageSize, TotalPages);
-		}
+			=> new PagingHeader(TotalItems, PageNumber, PageSize, TotalPages);
 	}
+
+	public class PagedList<T, V> : PagedList<T>
+	{
+		public PagedList(IEnumerable<T> list, int pageNumber = 1, int pageSize = -1, string sortBy = "", bool desc = true)
+			: base(list, pageNumber, pageSize, sortBy, desc)
+		{
+
+		}
+
+		public List<V> ViewList { get; set; }
+
+	}
+
 }

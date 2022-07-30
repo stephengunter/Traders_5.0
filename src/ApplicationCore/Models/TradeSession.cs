@@ -11,26 +11,28 @@ namespace ApplicationCore.Models
         public int SymbolId { get; set; }
         public int Open { get; set; }
         public int Close { get; set; }
+        public int OrderOpen { get; set; }
+        public int OrderClose { get; set; }
 
         public Symbol Symbol { get; set; }
 
 
-        public List<int> GetKLineTimes(DateTime date)
+        public List<int> GetKLineTimes(System.DateTime date)
         {
             int open = this.Open;
             int close = this.Close;
 
             var openTimes = open.ToTimes();
-            DateTime openTime = new DateTime(date.Year, date.Month, date.Day, openTimes[0], openTimes[1], openTimes[2]);
+            var openTime = new System.DateTime(date.Year, date.Month, date.Day, openTimes[0], openTimes[1], openTimes[2]);
 
             var closeTimes = close.ToTimes();
-            DateTime closeTime = new DateTime(date.Year, date.Month, date.Day, closeTimes[0], closeTimes[1], closeTimes[2]);
+            var closeTime = new System.DateTime(date.Year, date.Month, date.Day, closeTimes[0], closeTimes[1], closeTimes[2]);
 
             if (closeTime <= openTime) closeTime = closeTime.AddDays(1);
 
 
             var times = new List<int>();
-            DateTime time = openTime.AddMinutes(1);
+            var time = openTime.AddMinutes(1);
             while (time <= closeTime)
             {
                 times.Add(time.ToTimeNumber());

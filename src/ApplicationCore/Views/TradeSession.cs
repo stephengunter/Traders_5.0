@@ -8,5 +8,7 @@ namespace ApplicationCore.Views
         public int SymbolId { get; set; }
         public int Open { get; set; }
         public int Close { get; set; }
+        public int OrderOpen { get; set; }
+        public int OrderClose { get; set; }
     }
 }

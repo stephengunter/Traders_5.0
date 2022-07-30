@@ -37,7 +37,7 @@ namespace ApplicationCore.DataAccess
 				await SeedUsers(userManager);
 
 				await SeedSymbols(defaultContext);
-
+				await SeedTradeSessions(defaultContext);
 			}
 
 			Console.WriteLine("Done seeding database.");
@@ -61,10 +61,7 @@ namespace ApplicationCore.DataAccess
 			if (role == null)
 			{
 				await roleManager.CreateAsync(new IdentityRole { Name = roleName });
-
 			}
-
-
 		}
 
 		static async Task SeedUsers(UserManager<User> userManager)
@@ -132,12 +129,7 @@ namespace ApplicationCore.DataAccess
 				new Symbol { Code = SymbolCodes.BTCUSD, Title = "比特幣/美元", Type = SymbolType.Crypto, TimeZone = Models.TimeZone.UTC }
 
 			};
-			foreach (var symbol in symbols)
-			{
-				await AddSymbolIfNotExist(context, symbol);
-			}
-
-
+			foreach (var symbol in symbols) await AddSymbolIfNotExist(context, symbol);
 		}
 
 		static async Task AddSymbolIfNotExist(DefaultContext context, Symbol symbol)
@@ -146,6 +138,28 @@ namespace ApplicationCore.DataAccess
 			if (existingEntity == null)
 			{
 				await context.Symbols.AddAsync(symbol);
+				await context.SaveChangesAsync();
+			}
+		}
+
+		static async Task SeedTradeSessions(DefaultContext context)
+		{
+			var tx = await context.Symbols.FirstOrDefaultAsync(x => x.Code == SymbolCodes.TX);
+
+			var tradeSessions = new List<TradeSession>
+			{
+				new TradeSession { SymbolId = tx.Id, Default = true, Open = 84500, Close = 134500, OrderOpen = 83000, OrderClose = 134500 },
+				new TradeSession { SymbolId = tx.Id, Default = false, Open = 150000, Close = 50000, OrderOpen = 144500, OrderClose = 50000 }
+			};
+			foreach (var tradeSession in tradeSessions) await AddTradeSessionIfNotExist(context, tradeSession);
+		}
+
+		static async Task AddTradeSessionIfNotExist(DefaultContext context, TradeSession tradeSession)
+		{
+			var existingEntity = await context.TradeSessions.FirstOrDefaultAsync(x => x.SymbolId == tradeSession.SymbolId && x.Default == tradeSession.Default);
+			if (existingEntity == null)
+			{
+				await context.TradeSessions.AddAsync(tradeSession);
 				await context.SaveChangesAsync();
 			}
 		}

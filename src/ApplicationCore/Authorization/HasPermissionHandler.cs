@@ -13,27 +13,26 @@ namespace ApplicationCore.Authorization
 
 		protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HasPermissionRequirement requirement)
 		{
-			Permissions permissione = requirement.Permission;
+			var permission = requirement.Permission;
 
-			if (permissione == Permissions.Subscriber)
+			bool valid = false;
+
+			if (permission == Permissions.Admin)
 			{
-				if(context.User.Claims.IsSubscriber())
-				{
-					context.Succeed(requirement);
-					return Task.CompletedTask;
-				} 
+				valid = context.User.Claims.IsBoss() || context.User.Claims.IsDev();
 			}
-			else if(permissione == Permissions.Admin)
+			else if (permission == Permissions.Subscriber)
 			{
-				if(context.User.Claims.IsBoss() || context.User.Claims.IsDev())
-				{
-					context.Succeed(requirement);
-					return Task.CompletedTask;
-				}
-				
+				valid = context.User.Claims.IsSubscriber();
+			}
+			else if (permission == Permissions.User)
+			{
+				valid = context.User.Claims.HasItems();
 			}
 
-			context.Fail();
+			if (valid) context.Succeed(requirement);
+			else context.Fail();
+			
 			return Task.CompletedTask;
 		}
 	}

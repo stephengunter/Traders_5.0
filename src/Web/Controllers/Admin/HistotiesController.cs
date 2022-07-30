@@ -23,15 +23,14 @@ namespace Web.Controllers.Admin
 	{
 		private readonly ISymbolsService _symbolsService;
         private readonly IHistoriesService _historiesService;
-        private readonly IFuturesService _futuresService;
         private readonly IMapper _mapper;
 
 		public HistotiesController(ISymbolsService symbolsService, IHistoriesService historyKLinesService,
-            IFuturesService futuresService, IMapper mapper)
+            IMapper mapper)
 		{
 			_symbolsService = symbolsService;
             _historiesService = historyKLinesService;
-            _futuresService = futuresService;
+            
             _mapper = mapper;
 		}
 
@@ -100,8 +99,6 @@ namespace Web.Controllers.Admin
             var pageList = new PagedList<KLineGroupViewModel, KLineGroupViewModel>(groupViewList, page, pageSize);
 
             pageList.ViewList = groupViewList.ToList();
-
-            pageList.List = null;
 
             model.PagedList =  pageList;
             return Ok(model);
@@ -191,7 +188,7 @@ namespace Web.Controllers.Admin
        
         async Task ImportKLinesAsync(Symbol symbol, DateTime date, TradeSession tradeSession, List<Tick> allTicks)
         {
-            string yearMonth = _futuresService.GetYearMonth(date, symbol);
+            string yearMonth = symbol.GetYearMonth(date);
             var ticks = allTicks.Where(x => x.Order == yearMonth.ToInt()).ToList();
             var kLineTimes = tradeSession.GetKLineTimes(date);
             

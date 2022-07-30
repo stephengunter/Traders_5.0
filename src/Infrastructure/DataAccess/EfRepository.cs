@@ -31,7 +31,11 @@ namespace Infrastructure.DataAccess
 
 		public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec) => await ApplySpecification(spec).ToListAsync();
 
-		public async Task<int> CountAsync(ISpecification<T> spec) => await ApplySpecification(spec).CountAsync();
+		public async Task<int> CountAsync(ISpecification<T> spec)
+		{
+			if (spec == null) return await _dbSet.CountAsync();
+			else return await ApplySpecification(spec).CountAsync();
+		}
 
 		public async Task<T> AddAsync(T entity)
 		{

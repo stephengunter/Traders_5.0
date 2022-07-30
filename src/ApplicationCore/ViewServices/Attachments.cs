@@ -26,8 +26,6 @@ namespace ApplicationCore.ViewServices
 
 			pageList.ViewList = pageList.List.MapViewModelList(mapper);
 
-			pageList.List = null;
-
 			return pageList;
 		}
 

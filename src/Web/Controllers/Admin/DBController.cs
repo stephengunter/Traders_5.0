@@ -114,7 +114,7 @@ namespace Web.Controllers.Admin
 			ValidateRequest(model, _adminSettings);
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
-			var fileName = Path.Combine(BackupFolder, $"{DbName}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.bak");
+			var fileName = Path.Combine(BackupFolder, $"{DbName}_{System.DateTime.Now.ToString("yyyyMMddHHmmss")}.bak");
 
 			string cmdText = $"BACKUP DATABASE [{DbName}] TO DISK = '{fileName}'";
 			using (var conn = new SqlConnection(ConnectionString))
@@ -142,7 +142,7 @@ namespace Web.Controllers.Admin
 			_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
 			var kLines = _context.KLines.ToList();
-			SaveJson(folderPath, new KLine().GetType().Name, JsonConvert.SerializeObject(kLines));
+            SaveJson(folderPath, new ApplicationCore.Models.KLine().GetType().Name, JsonConvert.SerializeObject(kLines));
 
 			return Ok();
 		}
@@ -170,13 +170,13 @@ namespace Web.Controllers.Admin
 			}
 
 			string content = "";
-			string fileName = new KLine().GetType().Name;
+			string fileName = new ApplicationCore.Models.KLine().GetType().Name;
 			var file = model.GetFile(fileName);
 			if (file != null)
 			{
 				fileNames.Add(fileName);
 				content = await ReadFileTextAsync(file);
-				var kLineList = JsonConvert.DeserializeObject<List<KLine>>(content);
+				var kLineList = JsonConvert.DeserializeObject<List<ApplicationCore.Models.KLine>>(content);
 				_dBImportService.ImportKLines(_context, kLineList);
 
 				_dBImportService.SyncKLines(_context, kLineList);

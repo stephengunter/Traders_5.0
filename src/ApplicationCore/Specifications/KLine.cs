@@ -9,7 +9,7 @@ using ApplicationCore.Helpers;
 
 namespace ApplicationCore.Specifications
 {
-    public class HistoryKLineFilterSpecification : BaseSpecification<KLine>
+    public class HistoryKLineFilterSpecification : BaseSpecification<Models.KLine>
     {
 		public HistoryKLineFilterSpecification(Symbol symbol) : base(item => item.Symbol == symbol.Code)
 		{

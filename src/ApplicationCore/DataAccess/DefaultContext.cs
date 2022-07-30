@@ -16,10 +16,11 @@ namespace ApplicationCore.DataAccess
 		{
 			
 		}
-		public DbSet<ApiKey> ApiKeys { get; set; }
+		
 		public DbSet<Data> Data { get; set; }
 		public DbSet<Symbol> Symbols { get; set; }
 		public DbSet<TradeSession> TradeSessions { get; set; }
+		public DbSet<Order> Orders { get; set; }
 		public DbSet<UploadFile> UploadFiles { get; set; }
 		public DbSet<RefreshToken> RefreshTokens { get; set; }
 		public DbSet<OAuth> OAuth { get; set; }

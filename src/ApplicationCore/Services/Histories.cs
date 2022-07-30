@@ -13,8 +13,8 @@ namespace ApplicationCore.Services
 {
     public interface IHistoriesService
     {
-        Task<IEnumerable<KLine>> FetchAsync(Symbol symbol, int date);
-        Task AddUpdateAsync(KLine kLine);
+        Task<IEnumerable<Models.KLine>> FetchAsync(Symbol symbol, int date);
+        Task AddUpdateAsync(Models.KLine kLine);
         Task<IEnumerable<KLineGroupViewModel>> FetchGroupAsync(Symbol symbol);
         Task<IEnumerable<KLineGroupViewModel>> FetchGroupAsync(Symbol symbol, int date);
         Task<IEnumerable<KLineGroupViewModel>> FetchGroupByDateAsync(int date);
@@ -22,18 +22,18 @@ namespace ApplicationCore.Services
 
     public class HistoriesService : IHistoriesService
     {
-        private readonly IHistoryRepository<KLine> _historyRepository;
-        public HistoriesService(IHistoryRepository<KLine> historyRepository)
+        private readonly IHistoryRepository<Models.KLine> _historyRepository;
+        public HistoriesService(IHistoryRepository<Models.KLine> historyRepository)
         {
             _historyRepository = historyRepository;
         }
 
-        public async Task<IEnumerable<KLine>> FetchAsync(Symbol symbol, int date)
+        public async Task<IEnumerable<Models.KLine>> FetchAsync(Symbol symbol, int date)
         {
             var spec = new HistoryKLineFilterSpecification(symbol, date);
             return await _historyRepository.ListAsync(spec);
         }
-        public async Task AddUpdateAsync(KLine kLine)
+        public async Task AddUpdateAsync(Models.KLine kLine)
         {
             var existingEntity = FindOne(kLine.Symbol, kLine.Date, kLine.Time);
             if (existingEntity == null)
@@ -70,7 +70,7 @@ namespace ApplicationCore.Services
             return GetGroupModelList(kLines);
         }
 
-        IEnumerable<KLineGroupViewModel> GetGroupModelList(IEnumerable<KLine> kLines)
+        IEnumerable<KLineGroupViewModel> GetGroupModelList(IEnumerable<Models.KLine> kLines)
         {
             return kLines.GroupBy(q => new { q.Date, q.Symbol })
                             .Select(g => new KLineGroupViewModel
@@ -81,7 +81,7 @@ namespace ApplicationCore.Services
                             });
         }
 
-        KLine FindOne(string symbol, int date, int time)
+        Models.KLine FindOne(string symbol, int date, int time)
         {
             var spec = new HistoryKLineFilterSpecification(date, new Symbol { Code = symbol .ToUpper() }, time);
             return _historyRepository.GetSingleBySpec(spec);

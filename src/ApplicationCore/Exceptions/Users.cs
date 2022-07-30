@@ -12,6 +12,14 @@ namespace ApplicationCore.Exceptions
 		}
 	}
 
+	public class UpdateUserException : Exception
+	{
+		public UpdateUserException(string message) : base(message)
+		{
+
+		}
+	}
+
 	public class UserNotFoundException : Exception
 	{
 		public UserNotFoundException(string val, string key = "Id") : base($"UserNotFound. {key}: {val}")
@@ -19,8 +27,6 @@ namespace ApplicationCore.Exceptions
 
 		}
 	}
-
-	
 
 	public class UserPasswordException : Exception
 	{

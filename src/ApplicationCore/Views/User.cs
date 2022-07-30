@@ -16,6 +16,8 @@ namespace ApplicationCore.Views
 
         public string Email { get; set; }
 
+        public string ApiKey { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public bool HasPassword { get; set; }

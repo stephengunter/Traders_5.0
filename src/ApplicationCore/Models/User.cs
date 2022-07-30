@@ -1,4 +1,5 @@
-﻿using Infrastructure.Interfaces;
+﻿using Infrastructure.Entities;
+using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace ApplicationCore.Models
 	{
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-		public ICollection<ApiKey> ApiKeys { get; set; }
+		public string ApiKey { get; set; }
 
 		public ICollection<OAuth> OAuthList { get; set; }
 

@@ -88,7 +88,7 @@ namespace Web.Controllers.Tests
 
 			if (model.Cmd.EqualTo("local"))
 			{
-				var fileName = Path.Combine(BackupFolder, $"{DbName}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.bak");
+				var fileName = Path.Combine(BackupFolder, $"{DbName}_{System.DateTime.Now.ToString("yyyyMMddHHmmss")}.bak");
 
 				string cmdText = $"BACKUP DATABASE [{DbName}] TO DISK = '{fileName}'";
 				using (var conn = new SqlConnection(ConnectionString))

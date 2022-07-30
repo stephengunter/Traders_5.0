@@ -49,7 +49,7 @@ namespace ApplicationCore.Brokages.Binance
 
         void GetHistoryKlines(string symbol, int year, int month, int day)
         {
-            var start = new DateTime(year, month, day);
+            var start = new System.DateTime(year, month, day);
             for (int i = 0; i < 24; i++)
             {
                 var end = start.AddHours(1).AddSeconds(-1);

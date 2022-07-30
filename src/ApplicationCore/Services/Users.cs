@@ -8,31 +8,45 @@ using ApplicationCore.Models;
 using Microsoft.AspNetCore.Identity;
 using ApplicationCore.Helpers;
 using ApplicationCore.Exceptions;
+using ApplicationCore.Helpers.Extensions;
 
 namespace ApplicationCore.Services
 {
     public interface IUsersService
     {
-        Task<User> FindUserByEmailAsync(string email);
         Task<User> CreateUserAsync(string email, bool emailConfirmed);
-        Task<IList<string>> GetRolesAsync(User user);
 
+        #region Find
+        Task<User> FindUserByApiKeyAsync(string apiKey);
+        Task<User> FindUserByEmailAsync(string email);
         Task<User> FindUserByIdAsync(string id);
+        #endregion
+
+        #region Roles
+        Task<IList<string>> GetRolesAsync(User user);
         Task<IEnumerable<User>> FetchUsersAsync(string role = "");
         IEnumerable<IdentityRole> FetchRoles();
-
         IEnumerable<IdentityRole> GetRolesByUserId(string userId);
         Task<bool> IsAdminAsync(User user);
+        #endregion
 
+        #region ApiKey
+        Task<string> SetApiKeyAsync(User user);
+        #endregion
+
+        #region Subscriber
         Task<User> FindSubscriberAsync(string userId);
         Task<User> AddSubscriberRoleAsync(string userId);
         Task RemoveSubscriberRoleAsync(string userId);
+        #endregion
 
-        
+        #region Password
         Task<bool> HasPasswordAsync(User user);
         Task<bool> CheckPasswordAsync(User user, string password);
         Task AddPasswordAsync(User user, string password);
         Task ChangePasswordAsync(User user, string oldPassword, string password);
+        #endregion
+
     }
 
     public class UsersService : IUsersService
@@ -47,14 +61,6 @@ namespace ApplicationCore.Services
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
-        string SubscriberRoleName = AppRoles.Subscriber.ToString();
-        string DevRoleName = AppRoles.Dev.ToString();
-        string BossRoleName = AppRoles.Boss.ToString();
-
-        const string PASSEORD_MISMATCH = "PasswordMismatch";
-
-        public async Task<User> FindUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
 
         public async Task<User> CreateUserAsync(string email, bool emailConfirmed)
         {
@@ -72,9 +78,18 @@ namespace ApplicationCore.Services
             throw new CreateUserException($"{error.Code} : {error.Description}");
         }
 
-        public async Task<IList<string>> GetRolesAsync(User user) => await _userManager.GetRolesAsync(user);
-
+        #region Find
+        public async Task<User> FindUserByApiKeyAsync(string apiKey) => await _userManager.FindByApiKeyAsync(apiKey);
+        public async Task<User> FindUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
         public async Task<User> FindUserByIdAsync(string id) => await _userManager.FindByIdAsync(id);
+        #endregion
+
+        #region Roles
+        string SubscriberRoleName = AppRoles.Subscriber.ToString();
+        string DevRoleName = AppRoles.Dev.ToString();
+        string BossRoleName = AppRoles.Boss.ToString();
+
+        public async Task<IList<string>> GetRolesAsync(User user) => await _userManager.GetRolesAsync(user);
 
         public async Task<IEnumerable<User>> FetchUsersAsync(string role = "")
         {
@@ -112,24 +127,35 @@ namespace ApplicationCore.Services
 
             return match != null;
         }
+        #endregion
 
-        public async Task RemoveSubscriberRoleAsync(string userId)
+        #region ApiKey
+
+        public async Task<string> SetApiKeyAsync(User user)
+        {
+            user.ApiKey = Guid.NewGuid().ToString("N");
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                var error = result.Errors.FirstOrDefault();
+                throw new UpdateUserException($"{error.Code} : {error.Description}");
+            }
+
+            return user.ApiKey;
+        }
+
+        #endregion
+
+        #region Subscriber
+        public async Task<User> FindSubscriberAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) throw new UserNotFoundException(userId, "Id");
-            
 
             bool isSubscriber = await _userManager.IsInRoleAsync(user, SubscriberRoleName);
-            if (isSubscriber)
-            {
-                var result = await _userManager.RemoveFromRoleAsync(user, SubscriberRoleName);
-                if (!result.Succeeded)
-                {
-                    var error = result.Errors.FirstOrDefault();
-                    throw new AddUserToRoleException($"{error.Code} : {error.Description}");
-                }
-            }
-            
+
+            return isSubscriber ? user : null;
         }
 
         public async Task<User> AddSubscriberRoleAsync(string userId)
@@ -147,15 +173,28 @@ namespace ApplicationCore.Services
             throw new AddUserToRoleException($"{error.Code} : {error.Description}");
         }
 
-        public async Task<User> FindSubscriberAsync(string userId)
+        public async Task RemoveSubscriberRoleAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) throw new UserNotFoundException(userId, "Id");
 
-            bool isSubscriber = await _userManager.IsInRoleAsync(user, SubscriberRoleName);
 
-            return isSubscriber ? user : null;
+            bool isSubscriber = await _userManager.IsInRoleAsync(user, SubscriberRoleName);
+            if (isSubscriber)
+            {
+                var result = await _userManager.RemoveFromRoleAsync(user, SubscriberRoleName);
+                if (!result.Succeeded)
+                {
+                    var error = result.Errors.FirstOrDefault();
+                    throw new AddUserToRoleException($"{error.Code} : {error.Description}");
+                }
+            }
+
         }
+        #endregion
+
+        #region Password
+        const string PASSEORD_MISMATCH = "PasswordMismatch";
 
         public async Task<bool> HasPasswordAsync(User user) => await _userManager.HasPasswordAsync(user);
 
@@ -185,9 +224,9 @@ namespace ApplicationCore.Services
                 {
                     throw new UserPasswordException($"{error.Code} : {error.Description}");
                 }
-                
+
             }
         }
-
+        #endregion
     }
 }

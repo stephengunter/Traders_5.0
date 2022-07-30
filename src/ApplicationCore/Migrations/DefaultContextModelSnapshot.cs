@@ -19,47 +19,6 @@ namespace ApplicationCore.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApplicationCore.Models.ApiKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Removed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ApiKeys");
-                });
-
             modelBuilder.Entity("ApplicationCore.Models.Data", b =>
                 {
                     b.Property<int>("Id")
@@ -120,6 +79,53 @@ namespace ApplicationCore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("OAuth");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BS")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DealPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Removed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ApplicationCore.Models.RefreshToken", b =>
@@ -205,6 +211,12 @@ namespace ApplicationCore.Migrations
                     b.Property<int>("Open")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderClose")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderOpen")
+                        .HasColumnType("int");
+
                     b.Property<int>("SymbolId")
                         .HasColumnType("int");
 
@@ -279,6 +291,9 @@ namespace ApplicationCore.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("ApiKey")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -471,19 +486,19 @@ namespace ApplicationCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Models.ApiKey", b =>
+            modelBuilder.Entity("ApplicationCore.Models.OAuth", b =>
                 {
                     b.HasOne("ApplicationCore.Models.User", "User")
-                        .WithMany("ApiKeys")
+                        .WithMany("OAuthList")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Models.OAuth", b =>
+            modelBuilder.Entity("ApplicationCore.Models.Order", b =>
                 {
                     b.HasOne("ApplicationCore.Models.User", "User")
-                        .WithMany("OAuthList")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -567,8 +582,6 @@ namespace ApplicationCore.Migrations
 
             modelBuilder.Entity("ApplicationCore.Models.User", b =>
                 {
-                    b.Navigation("ApiKeys");
-
                     b.Navigation("OAuthList");
 
                     b.Navigation("RefreshToken");

@@ -27,9 +27,9 @@ namespace ApplicationCore.Auth
             string providerName = cp.Claims.First(c => c.Type.EqualTo(ClaimKeys.Provider)).Value;
 
             OAuthProvider provider = OAuthProvider.Unknown;
-            if (Enum.TryParse(providerName, true, out provider))
+            if (System.Enum.TryParse(providerName, true, out provider))
             {
-                if (Enum.IsDefined(typeof(OAuthProvider), provider)) return provider;
+                if (System.Enum.IsDefined(typeof(OAuthProvider), provider)) return provider;
                 else return OAuthProvider.Unknown;
             }
             else return OAuthProvider.Unknown;
